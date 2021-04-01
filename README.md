@@ -165,10 +165,10 @@ To optimize the strategy we will use the Hyperopt module of freqtrade. First up 
 dcr freqtrade new-hyperopt --hyperopt BBRSIHyperopt
 ```
 
-Now add desired definitions for buy/sell guards and triggers to the Hyperopt file. Then run the optimization like so:
+Now add desired definitions for buy/sell guards and triggers to the Hyperopt file. Then run the optimization like so (NOTE: set the time interval and the number of epochs to test using the `-i` and `-e` flags:
 
 ```
-dcr freqtrade hyperopt --hyperopt BBRSIHyperopt --hyperopt-loss SharpeHyperOptLoss --strategy BBRSINaiveStrategy -i 15m
+dcr freqtrade hyperopt --hyperopt BBRSIHyperopt --hyperopt-loss SharpeHyperOptLoss --strategy BBRSINaiveStrategy -i 15m -e 5000
 ```
 
 ## Update Strategy
@@ -233,8 +233,3 @@ https://www.freqtrade.io/en/stable/sql_cheatsheet/
 
 https://www.freqtrade.io/en/stable/plotting/#plot-dataframe-basics
 
-## Live Trading
-
-In this case we will run the bot on AWS EC2 instance.
-
-* Follow [these instructions](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04) if you need to install Docker service on Ubuntu.
