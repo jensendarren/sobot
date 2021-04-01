@@ -5,3 +5,4 @@ ft_userdata/user_data/logs/*.log
 ft_userdata/user_data/plot/*.html
 ft_userdata/user_data/*.lock
 ft_userdata/user_data/*.sqlite
+ft_userdata/user_data/config.secrets.json
