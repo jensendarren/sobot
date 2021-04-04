@@ -1,4 +1,6 @@
-# FT Bot
+# Sobot
+
+## Sobot using Freqtrade
 
 A bot built and configured using Freqtrade!
 
