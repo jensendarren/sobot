@@ -64,7 +64,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /var/www/sobotdry/ft_userdata/views
+      device: /var/www/sobot/dhparam
       o: bind
 
 networks:
