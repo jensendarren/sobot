@@ -1,11 +1,12 @@
 {
-    "max_open_trades": 15,
+    "max_open_trades": 10,
     "stake_currency": "USDT",
-    "stake_amount": 100,
+    "stake_amount": "unlimited",
     "tradable_balance_ratio": 0.99,
     "fiat_display_currency": "USD",
     "timeframe": "15m",
     "dry_run": true,
+    "dry_run_wallet": 1000,
     "cancel_open_orders_on_exit": false,
     "unfilledtimeout": {
         "buy": 10,
@@ -98,12 +99,12 @@
         "remove_pumps": false
     },
     "telegram": {
-        "enabled": true,
+        "enabled": false,
         "token": "SECRET",
         "chat_id": "SECRET"
     },
     "api_server": {
-        "enabled": true,
+        "enabled": false,
         "listen_ip_address": "0.0.0.0",
         "listen_port": 8080,
         "verbosity": "error",
