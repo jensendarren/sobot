@@ -18,7 +18,7 @@ services:
     # Please read the https://www.freqtrade.io/en/latest/rest-api/ documentation
     # before enabling this.
     ports:
-      - "80:8080"
+      - "8080:8080"
     # Default command used when running `docker compose up`
     command: >
       trade
@@ -27,3 +27,46 @@ services:
       --config /freqtrade/user_data/config.json
       --config /freqtrade/user_data/config.secrets.json
       --strategy BBRSIOptimizedStrategy
+    networks:
+      - sobot-network
+
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - freqtrade
+    networks:
+      - sobot-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/sobot/ft_userdata/user_data
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/sobot/ft_userdata/user_data --email darren.jensen@devzep.com --agree-tos --no-eff-email --staging -d sobot.io  -d www.sobot.io
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /var/www/sobotdry/ft_userdata/views
+      o: bind
+
+networks:
+  sobot-network:
+    driver: bridge
