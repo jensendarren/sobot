@@ -62,18 +62,6 @@ services:
 volumes:
   certbot-etc:
   certbot-var:
-  # web-root:
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     device: /var/www/sobot/ft_userdata/views
-  #     o: bind
-  # dhparam:
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     device: /var/www/sobot/ft_userdata/dhparam
-  #     o: bind
 
 networks:
   sobot-network:
