@@ -235,3 +235,9 @@ https://www.freqtrade.io/en/stable/sql_cheatsheet/
 
 https://www.freqtrade.io/en/stable/plotting/#plot-dataframe-basics
 
+## Deploying to Production
+
+A couple of steps but might take you time! Assuming you have a server available already that you can ssh into as a sudoer user.
+
+* Step 1: [Install Docker](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-18-04), clone the repo and start the service.
+* Step 2: [Install Nginx & Certbot containers using Docker Compose](https://www.digitalocean.com/community/tutorials/how-to-secure-a-containerized-node-js-application-with-nginx-let-s-encrypt-and-docker-compose) to serve the bot via SSL.
