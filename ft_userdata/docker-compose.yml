@@ -36,11 +36,13 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - web-root:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
     depends_on:
       - freqtrade
     networks:
@@ -55,7 +57,7 @@ services:
       - web-root:/var/www/html
     depends_on:
       - webserver
-    command: certonly --webroot --webroot-path=/var/www/html --email darren.jensen@devzep.com --agree-tos --no-eff-email --staging -d sobot.io -d www.sobot.io
+    command: certonly --webroot --webroot-path=/var/www/html --email darren.jensen@devzep.com --agree-tos --no-eff-email --force-renewal -d sobot.io -d www.sobot.io
 
 volumes:
   certbot-etc:
@@ -64,7 +66,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /var/www/sobot/dhparam
+      device: /var/www/sobotdry/ft_userdata/dhparam
       o: bind
 
 networks:
