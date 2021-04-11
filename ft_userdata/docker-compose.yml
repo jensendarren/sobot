@@ -38,11 +38,11 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - web-root:/var/www/html
+      - ./views:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
-      - dhparam:/etc/ssl/certs
+      - ./dhparam:/etc/ssl/certs
     depends_on:
       - freqtrade
     networks:
@@ -54,7 +54,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
-      - web-root:/var/www/html
+      - ./views:/var/www/html
     depends_on:
       - webserver
     command: certonly --webroot --webroot-path=/var/www/html --email darren.jensen@devzep.com --agree-tos --no-eff-email --force-renewal -d sobot.io -d www.sobot.io
@@ -62,12 +62,18 @@ services:
 volumes:
   certbot-etc:
   certbot-var:
-  web-root:
-    driver: local
-    driver_opts:
-      type: none
-      device: /var/www/sobotdry/ft_userdata/dhparam
-      o: bind
+  # web-root:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: /var/www/sobot/ft_userdata/views
+  #     o: bind
+  # dhparam:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: /var/www/sobot/ft_userdata/dhparam
+  #     o: bind
 
 networks:
   sobot-network:
