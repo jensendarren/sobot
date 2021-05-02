@@ -90,10 +90,10 @@ If you have run the bot already, you will need to clear out any existing dry run
 
 As a quick sanity check, you can now immediately start the bot in a sandbox mode and it will start trading (with paper money - not real money!).
 
-To start trading in sandbox mode, simply start the service as a daemon using Docker Compose, like so and follow the log trail as follows:
+In development / testing environment we only need to run the `Freqtrade` container. To start trading in sandbox mode, simply start the service as a daemon using Docker Compose, like so and follow the log trail as follows:
 
 ```
-dc up -d
+dc up -d freqtrade
 dc ps
 dc logs -f
 ```
@@ -115,6 +115,8 @@ Now that we have our pairs file in place, lets download the OHLCV data for backt
 dcr freqtrade download-data --exchange binance -t 15m
 ```
 
+**NOTE**: If you already have backtesting data available in your data-directory and would like to refresh this data up to today, do not use --days or --timerange parameters. Freqtrade will keep the available data and only download the missing data. If you are updating existing data after inserting new pairs that you have no data for, use --new-pairs-days xx parameter.
+
 List the available data using the `list-data` sub-command:
 
 ```
@@ -122,6 +124,15 @@ dcr freqtrade list-data --exchange binance
 ```
 
 Manually inspect the json files to examine the data is as expected (i.e. that it contains the expected `OHLCV` data requested).
+
+Optionally, you can confirm the timestamps are correct by checking that the first is the expected start date, the last is the expected end date and the intervals are the expected time interval. To use Python to convert timestamps to dates use the following code in a Python terminal:
+
+```
+import datetime
+timestamp = 1618445100
+date = datetime.datetime.fromtimestamp(1618445100)
+print(date.strftime('%Y-%m-%d %H:%M:%S'))
+```
 
 ## OPTIONAL: Convert the backtesting data to be more compact
 
@@ -142,10 +153,18 @@ dcr freqtrade list-data --exchange binance --data-format-ohlcv jsongz
 Now we have the data for 15m OHLCV data for our pairs lets Backtest this strategy:
 
 ```
-dcr freqtrade backtesting --datadir user_data/data/binance --export trades --stake-amount 100 -s BBRSINaiveStrategy -i 15m
+dcr freqtrade backtesting --datadir user_data/data/binance --export trades -s BBRSINaiveStrategy -i 15m
 ```
 
-For details on interpreting the result, refer to ['Understading the backtesting result'](https://www.freqtrade.io/en/stable/backtesting/#understand-the-backtesting-result)
+For details on interpreting the result, refer to ['Understading the backtesting result'](https://www.freqtrade.io/en/stable/backtesting/#understand-the-backtesting-result).
+
+## Backtesting multiple strategies
+
+You might want to test multiple strategies at once and compare the results side by side. In this case use the `--strategy-list` option like below. Note in the below example, I've included the `--timerange` option set to `20210201-202102028` which means to use downloaded test data between 1st February 2021 till 28th February 2021. You can remove this option to test against all data as well.
+
+```
+dcr freqtrade backtesting --strategy-list Strategy001 Strategy002 Strategy003 Strategy004 Strategy005 --timerange=20210201-20210228 --timeframe 5m
+```
 
 ## Plotting
 
@@ -241,3 +260,9 @@ A couple of steps but might take you time! Assuming you have a server available 
 
 * Step 1: [Install Docker](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-18-04), clone the repo and start the service.
 * Step 2: [Install Nginx & Certbot containers using Docker Compose](https://www.digitalocean.com/community/tutorials/how-to-secure-a-containerized-node-js-application-with-nginx-let-s-encrypt-and-docker-compose) to serve the bot via SSL.
+
+Then run in production server using:
+
+```
+docker-compose up -d
+```

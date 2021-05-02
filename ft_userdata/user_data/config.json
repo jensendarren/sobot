@@ -1,10 +1,9 @@
 {
-    "max_open_trades": 6,
+    "max_open_trades": 15,
     "stake_currency": "USDT",
-    "stake_amount": "200",
+    "stake_amount": "unlimited",
     "tradable_balance_ratio": 0.7,
     "fiat_display_currency": "USD",
-    "timeframe": "15m",
     "dry_run": true,
     "dry_run_wallet": 1000,
     "cancel_open_orders_on_exit": false,
@@ -73,8 +72,8 @@
             "VET/USDT",
             "XMR/USDT",
             "XRP/USDT",
-            "XVS/USDT",
-            "XTZ/USDT"
+            "XTZ/USDT",
+            "XVS/USDT"
         ],
         "pair_blacklist": [
             "OGN/USDT"
