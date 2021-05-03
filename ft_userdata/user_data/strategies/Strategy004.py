@@ -42,18 +42,13 @@ class Strategy004(IStrategy):
     buy_slowadx = IntParameter(20, 50, default=26)
     buy_cci = IntParameter(-100, -50, default=-100)
 
-    # buy_adx_enabled = CategoricalParameter([True, False]),
-    # buy_cci_enabled = CategoricalParameter([True, False]),
-
-    # Note CategoricalParameter not working in stable so using 0,1
-    # Issue submitted by me here: https://github.com/freqtrade/freqtrade/issues/4852
-    buy_adx_enabled = IntParameter(0, 1, default=1)
-    buy_cci_enabled = IntParameter(0, 1, default=1)
+    buy_adx_enabled = CategoricalParameter([True, False], default=True)
+    buy_cci_enabled = CategoricalParameter([True, False], default=True)
 
     # SELL PARAMS
     sell_slowadx = IntParameter(15, 35, default=25)
 
-    sell_slowadx_enabled = CategoricalParameter([True, False]),
+    sell_slowadx_enabled = CategoricalParameter([True, False], default=True)
 
     # Minimal ROI designed for the strategy.
     # This attribute will be overridden if the config file contains "minimal_roi"
@@ -151,12 +146,12 @@ class Strategy004(IStrategy):
         conditions = []
 
         # GUARDS AND TRENDS
-        if self.buy_adx_enabled.value == 1:
+        if self.buy_adx_enabled.value:
             conditions.append((
                 (dataframe['adx'] > self.buy_adx.value) |
                 (dataframe['slowadx'] > self.buy_slowadx.value)
             ))
-        if self.buy_cci_enabled.value == 1:
+        if self.buy_cci_enabled.value:
             conditions.append(dataframe['cci'] < self.buy_cci.value)
 
         # TODO add fastk, fastd, slowfastk, slow fastd and mean-volume as hyperopt params
@@ -192,7 +187,7 @@ class Strategy004(IStrategy):
 
         conditions = []
 
-        if self.sell_slowadx_enabled:
+        if self.sell_slowadx_enabled.value:
             conditions.append((dataframe['slowadx'] < self.sell_slowadx.value))
 
         # TODO add these indicators to
