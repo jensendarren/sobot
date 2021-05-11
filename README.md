@@ -180,13 +180,9 @@ Once the plot is ready you will see the message `Stored plot as /freqtrade/user_
 
 ## Optimize
 
-To optimize the strategy we will use the Hyperopt module of freqtrade. First up we need to create a new hyperopt file from a template:
+It now appears that its not required to create a separate Hyperopt file anymore. Instead instead its possible to add Hyperopt params directly to the strategy file. Take a look at [Strategy004](./ft_userdata/user_data/strategies/Strategy004.py) as an example.
 
-```
-dcr freqtrade new-hyperopt --hyperopt BBRSIHyperopt
-```
-
-Now add desired definitions for buy/sell guards and triggers to the Hyperopt file. Then run the optimization like so (NOTE: set the time interval and the number of epochs to test using the `-i` and `-e` flags:
+So add desired definitions for buy/sell guards and triggers to the Hyperopt file. Then run the optimization like so (NOTE: set the time interval and the number of epochs to test using the `-i` and `-e` flags:
 
 ```
 dcr freqtrade hyperopt --hyperopt-loss SharpeHyperOptLoss --strategy Strategy004 -i 5m -e 5000
