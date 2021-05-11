@@ -41,13 +41,19 @@ class Strategy004(IStrategy):
     buy_adx = IntParameter(25, 75, default=50)
     buy_slowadx = IntParameter(20, 50, default=26)
     buy_cci = IntParameter(-100, -50, default=-100)
+    buy_fastk_fastd = IntParameter(10, 20, default=20)
+    buy_slowfastk_slowfastd = IntParameter(10, 30, default=30)
+    buy_mean_volume = DecimalParameter(0.7, 0.8, default=0.75)
 
+    # BUY PARAMS ENABLED
     buy_adx_enabled = CategoricalParameter([True, False], default=True)
     buy_cci_enabled = CategoricalParameter([True, False], default=True)
 
     # SELL PARAMS
     sell_slowadx = IntParameter(15, 35, default=25)
+    sell_fastk_fastd = IntParameter(60, 80, default=70)
 
+    # SELL PARAMS ENABLED
     sell_slowadx_enabled = CategoricalParameter([True, False], default=True)
 
     # Minimal ROI designed for the strategy.
@@ -154,22 +160,21 @@ class Strategy004(IStrategy):
         if self.buy_cci_enabled.value:
             conditions.append(dataframe['cci'] < self.buy_cci.value)
 
-        # TODO add fastk, fastd, slowfastk, slow fastd and mean-volume as hyperopt params
         conditions.append((
-            (dataframe['fastk-previous'] < 20) &
-            (dataframe['fastd-previous'] < 20)
+            (dataframe['fastk-previous'] < self.buy_fastk_fastd.value) &
+            (dataframe['fastd-previous'] < self.buy_fastk_fastd.value)
         ))
 
         conditions.append((
-            (dataframe['slowfastk-previous'] < 30) &
-            (dataframe['slowfastd-previous'] < 30)
+            (dataframe['slowfastk-previous'] < self.buy_slowfastk_slowfastd.value) &
+            (dataframe['slowfastd-previous'] < self.buy_slowfastk_slowfastd.value)
         ))
 
         conditions.append((dataframe['fastk-previous'] < dataframe['fastd-previous']))
 
         conditions.append((dataframe['fastk'] > dataframe['fastd']))
 
-        conditions.append((dataframe['mean-volume'] > 0.75))
+        conditions.append((dataframe['mean-volume'] > self.buy_mean_volume.value))
 
         if conditions:
             dataframe.loc[
@@ -190,8 +195,7 @@ class Strategy004(IStrategy):
         if self.sell_slowadx_enabled.value:
             conditions.append((dataframe['slowadx'] < self.sell_slowadx.value))
 
-        # TODO add these indicators to
-        conditions.append((dataframe['fastk'] > 70) | (dataframe['fastd'] > 70))
+        conditions.append((dataframe['fastk'] > self.sell_fastk_fastd.value) | (dataframe['fastd'] > self.sell_fastk_fastd.value))
 
         conditions.append((dataframe['fastk-previous'] < dataframe['fastd-previous']))
 

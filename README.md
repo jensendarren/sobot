@@ -145,7 +145,7 @@ dcr freqtrade convert-data --format-from json --format-to jsongz --datadir user_
 Note to list the available data you need to pass the `--data-format-ohlcv jsongz` flag as below:
 
 ```
-dcr freqtrade list-data --exchange binance --data-format-ohlcv jsongz
+dcr freqtrade list-data --exchange binance
 ```
 
 ## Backtest
@@ -189,7 +189,7 @@ dcr freqtrade new-hyperopt --hyperopt BBRSIHyperopt
 Now add desired definitions for buy/sell guards and triggers to the Hyperopt file. Then run the optimization like so (NOTE: set the time interval and the number of epochs to test using the `-i` and `-e` flags:
 
 ```
-dcr freqtrade hyperopt --hyperopt BBRSIHyperopt --hyperopt-loss SharpeHyperOptLoss --strategy BBRSINaiveStrategy -i 15m -e 5000
+dcr freqtrade hyperopt --hyperopt-loss SharpeHyperOptLoss --strategy Strategy004 -i 5m -e 5000
 ```
 
 ## Update Strategy
