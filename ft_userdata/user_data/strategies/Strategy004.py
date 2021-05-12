@@ -38,20 +38,20 @@ class Strategy004(IStrategy):
     # defaults to the best values returned by the Hyeropt!
 
     # BUY PARAMS
-    buy_adx = IntParameter(25, 75, default=50)
-    buy_slowadx = IntParameter(20, 50, default=26)
-    buy_cci = IntParameter(-100, -50, default=-100)
+    buy_adx = IntParameter(25, 75, default=30)
+    buy_slowadx = IntParameter(20, 50, default=21)
+    buy_cci = IntParameter(-100, -50, default=-79)
     buy_fastk_fastd = IntParameter(10, 20, default=20)
-    buy_slowfastk_slowfastd = IntParameter(10, 30, default=30)
-    buy_mean_volume = DecimalParameter(0.7, 0.8, default=0.75)
+    buy_slowfastk_slowfastd = IntParameter(10, 30, default=26)
+    buy_mean_volume = DecimalParameter(0.7, 0.8, default=0.764)
 
     # BUY PARAMS ENABLED
     buy_adx_enabled = CategoricalParameter([True, False], default=True)
-    buy_cci_enabled = CategoricalParameter([True, False], default=True)
+    buy_cci_enabled = CategoricalParameter([True, False], default=False)
 
     # SELL PARAMS
-    sell_slowadx = IntParameter(15, 35, default=25)
-    sell_fastk_fastd = IntParameter(60, 80, default=70)
+    sell_slowadx = IntParameter(15, 35, default=18)
+    sell_fastk_fastd = IntParameter(60, 80, default=69)
 
     # SELL PARAMS ENABLED
     sell_slowadx_enabled = CategoricalParameter([True, False], default=True)
@@ -59,15 +59,15 @@ class Strategy004(IStrategy):
     # Minimal ROI designed for the strategy.
     # This attribute will be overridden if the config file contains "minimal_roi"
     minimal_roi = {
-        "60":  0.01,
-        "30":  0.03,
-        "20":  0.04,
-        "0":  0.05
+        "0": 0.181,
+        "10": 0.103,
+        "66": 0.038,
+        "90": 0
     }
 
     # Optimal stoploss designed for the strategy
     # This attribute will be overridden if the config file contains "stoploss"
-    stoploss = -0.10
+    stoploss = -0.33
 
     # Optimal timeframe for the strategy
     timeframe = '5m'

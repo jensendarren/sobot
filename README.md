@@ -262,3 +262,11 @@ Then run in production server using:
 ```
 docker-compose up -d
 ```
+
+## Running a second dry run instance in Production
+
+If you want to run another instance on a different port in Production then you can make use of the `docker-compose.dry.yml` file:
+
+```
+dc -f docker-compose.yml -f docker-compose.dryrun.yml up -d
+```

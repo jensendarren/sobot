@@ -5,7 +5,7 @@
     "tradable_balance_ratio": 0.7,
     "fiat_display_currency": "USD",
     "dry_run": true,
-    "dry_run_wallet": 1000,
+    "dry_run_wallet": 2000,
     "cancel_open_orders_on_exit": false,
     "unfilledtimeout": {
         "buy": 10,

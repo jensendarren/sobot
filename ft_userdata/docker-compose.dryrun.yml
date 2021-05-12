@@ -1,0 +1,22 @@
+version: '3'
+services:
+  freqtrade:
+    ports:
+      - "8000:8080"
+    # Default command used when running `docker compose up`
+    command: >
+      trade
+      --logfile /freqtrade/user_data/logs/freqtrade.dryrun.log
+      --db-url sqlite:////freqtrade/user_data/tradesv3.dryrun.sqlite
+      --config /freqtrade/user_data/config.json
+      --config /freqtrade/user_data/config.secrets.dryrun.json
+      --strategy Strategy004
+
+  # Do not start webserver or certbot for dryrun
+  webserver:
+    deploy:
+      replicas: 0
+
+  certbot:
+    deploy:
+      replicas: 0
