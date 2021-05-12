@@ -1,8 +1,12 @@
 version: '3'
 services:
-  freqtrade:
+  freqtrade-dryrun:
+    image: freqtradeorg/freqtrade:stable
     ports:
       - "8000:8080"
+    restart: unless-stopped
+    volumes:
+      - "./user_data:/freqtrade/user_data"
     container_name: freqtrade-dryrun
     # Default command used when running `docker compose up`
     command: >
@@ -14,13 +18,3 @@ services:
       --strategy Strategy004
     networks:
       - default
-
-
-  # Do not start webserver or certbot for dryrun
-  webserver:
-    deploy:
-      replicas: 0
-
-  certbot:
-    deploy:
-      replicas: 0
