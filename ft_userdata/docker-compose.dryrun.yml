@@ -3,6 +3,7 @@ services:
   freqtrade:
     ports:
       - "8000:8080"
+    container_name: freqtrade-dryrun
     # Default command used when running `docker compose up`
     command: >
       trade
@@ -11,6 +12,9 @@ services:
       --config /freqtrade/user_data/config.json
       --config /freqtrade/user_data/config.secrets.dryrun.json
       --strategy Strategy004
+    networks:
+      - default
+
 
   # Do not start webserver or certbot for dryrun
   webserver:
