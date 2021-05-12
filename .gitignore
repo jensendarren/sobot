@@ -2,6 +2,7 @@ ft_userdata/user_data/backtest_results/*.json
 ft_userdata/user_data/data/binance/*.json
 ft_userdata/user_data/hyperopt_results/*.*
 ft_userdata/user_data/logs/*.log
+ft_userdata/user_data/logs/*.log.*
 ft_userdata/user_data/plot/*.html
 ft_userdata/user_data/*.lock
 ft_userdata/user_data/*.sqlite
