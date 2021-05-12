@@ -257,16 +257,32 @@ A couple of steps but might take you time! Assuming you have a server available 
 * Step 1: [Install Docker](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-18-04), clone the repo and start the service.
 * Step 2: [Install Nginx & Certbot containers using Docker Compose](https://www.digitalocean.com/community/tutorials/how-to-secure-a-containerized-node-js-application-with-nginx-let-s-encrypt-and-docker-compose) to serve the bot via SSL.
 
-Then run in production server using:
+Then run in production server using (start ONLY freqtrade and webserver if there is already a valid SSL from certbot created to avoid rate limit issues with certbot):
 
 ```
-docker-compose up -d
+docker-compose up -d freqtrade webserver
+```
+
+Note if you see `Permission denied: '/freqtrade/user_data/logs/freqtrade.log'` or similar after updatiing the docker images then simply run the following command below which will set the `user_data` directory owner correctly and then restart the services.
+
+```
+docker-compose run --rm freqtrade create-userdir --userdir user_data
 ```
 
 ## Running a second dry run instance in Production
 
-If you want to run another instance on a different port in Production then you can make use of the `docker-compose.dry.yml` file:
+If you want to run another instance on a different port in Production then you can make use of the `docker-compose.dryrun.yml` file:
 
 ```
-dc -f docker-compose.yml -f docker-compose.dryrun.yml up -d
+dc -f docker-compose.dryrun.yml up -d
+
+# Now check the process and logs like so:
+
+dc -f docker-compose.dryrun.yml ps
+dc -f docker-compose.dryrun.yml logs -f
+
+# Spin down like so:
+dc -f docker-compose.dryrun.yml down
 ```
+
+dclean() { docker stop $(docker ps -a -q); docker rm -f $(docker ps -a -q); docker rmi -f $(docker images | grep "<none>" | awk "{print \$3}"); docker system prune -f; docker system prune --volumes -f; }
